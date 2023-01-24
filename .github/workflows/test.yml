@@ -9,10 +9,17 @@ on:
 
 jobs:
   phpunit:
-    runs-on: php:8.2
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/checkout@v2
-      - run: |
+      - name: Setup PHP with composer v2
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.2'
+          tools: composer:v2      
+      - name: Install dependencies
+        run: |
           composer install
-      - run: |
+      - name: Run tests
+        run: |
           composer run phpunit
