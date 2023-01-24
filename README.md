@@ -1,4 +1,4 @@
-RegSem — The PHP regex relief
+RegSem — The PHP regular expressions relief
 =============
 
 [![RegSem Tests Status](https://github.com/bakome/regsem/workflows/test/badge.svg)](https://github.com/bakome/regsem/actions/workflows/test.yml)
@@ -6,7 +6,7 @@ RegSem — The PHP regex relief
 [![RegSem Analysis Status](https://github.com/bakome/regsem/workflows/analyse/badge.svg)](https://github.com/bakome/regsem/actions/workflows/analyse.yml)
 
 
-The easiest way to build robust and meaningful regex expressions in PHP.
+The easiest way to build robust and meaningful regular expressions in PHP.
 
 ### Requirements ###
 
