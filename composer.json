@@ -1,0 +1,43 @@
+{
+    "name": "bakome/regsem",
+    "description": "The easiest way to build robust and meaningful regex expressions in PHP",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Aleksandar Bako Markovski",
+            "email": "aleksandar.markovski_bako@yahoo.com"
+        }
+    ],
+    "require": {
+        "php": "^8.0"
+    },
+    "require-dev": {
+        "php": "^8.0",
+        "phpunit/phpunit": "^9.5",
+        "vimeo/psalm": "^5.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Bakome\\RegSem\\": "src/"
+        },
+        "files": [
+            "src/regex.php",
+            "src/edge.php",
+            "src/popular.php",
+            "src/evaluate.php",
+            "src/characters.php",
+            "src/repetition.php"
+        ]
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Tests\\Bakome\\RegSem\\": "tests/"
+        }
+    },
+    "scripts": {
+        "test": ["@phpunit", "@psalm"],
+        "phpunit": "vendor/bin/phpunit",
+        "psalm": "vendor/bin/psalm"
+    }
+}
