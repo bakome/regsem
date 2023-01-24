@@ -8,7 +8,7 @@ on:
       - 'releases/*'
 
 jobs:
-  test:
+  psalm:
     runs-on: php:8.2
     steps:
       - uses: actions/checkout@v2
