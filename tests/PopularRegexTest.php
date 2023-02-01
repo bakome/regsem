@@ -25,12 +25,7 @@ final class PopularRegexTest extends TestCase
             email()
         );
 
-        $this->assertTrue(
-                $regex('test@email.com')
-        );
-
-        $this->assertFalse(
-                $regex('testfail.com')
-        );
+        $this->assertTrue($regex('test@email.com'));
+        $this->assertFalse($regex('testfail.com'));
     }
 }

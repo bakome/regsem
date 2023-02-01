@@ -22,9 +22,17 @@ use function Bakome\RegSem\{
     lineBreak,
     lineFeed,
     literal,
-    matchZeroOrOnce,
     tab,
-    verticalTab
+    verticalTab,
+    matchZeroOrOneClass,
+    matchOneOrMoreClass,
+    matchZeroOrMoreClass,
+    matchOneOrMoreGroup,
+    matchZeroOrOneGroup,
+    matchZeroOrMoreGroup,
+    matchZeroOrMoreOnlyGroup,
+    matchZeroOrOneOnlyGroup,
+    matchOneOrMoreOnlyGroup
 };
 
 final class RegexTest extends TestCase
@@ -65,7 +73,7 @@ final class RegexTest extends TestCase
         $regex = regex(
             beginsWith('Beginning test subject'),
             ceaseWith(' with end expression')
-        );        
+        );
 
         $this->assertTrue($regex('Beginning test subject with end expression'));
         $this->assertFalse($regex('False test subject'));
@@ -76,7 +84,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             literal('bird')
-        );        
+        );
 
         $this->assertTrue($regex('He turns into a bird in his hands and flies away.'));
         $this->assertFalse($regex('He turns into a frog in his hands and run away.'));
@@ -87,7 +95,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             tab()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird in\this hands and flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -98,7 +106,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             carriageReturn()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\r He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -109,7 +117,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             lineFeed()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\n He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -120,7 +128,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             lineBreak()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\n He flies away."));
         $this->assertTrue($regex("He turns into a bird.\r\n He flies away."));
@@ -132,10 +140,10 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             bell()
-        );   
+        );
 
         $this->assertTrue(
-            $regex(
+                $regex(
                 "He turns into a bird.\07 He flies away."
             )
         ); // \07 Is a bell character \a in hex representation.
@@ -147,7 +155,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             escapeCharacter()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\e He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -158,7 +166,7 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             formFeed()
-        );   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\f He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -170,8 +178,8 @@ final class RegexTest extends TestCase
         $regex = regex(
             beginsWith('He turns into a bird.'),
             tab()
-        );   
-    
+        );
+
         $this->assertTrue($regex("He turns into a bird.\t He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
 
@@ -179,7 +187,7 @@ final class RegexTest extends TestCase
             beginsWith('He turns into a bird.'),
             tab(),
             ceaseWith(' He flies away.')
-        );           
+        );
 
         $this->assertTrue($regex("He turns into a bird.\t He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
@@ -190,31 +198,148 @@ final class RegexTest extends TestCase
     {
         $regex = regex(
             verticalTab()
-        );                   
+        );
 
         $this->assertTrue($regex("He turns into a bird.\v He flies away."));
         $this->assertFalse($regex('He turns into a bird in his hands and flies away.'));
     }
 
     /** @test */
-    public function regex_match_token_zero_or_once_making_optional_match()
+    public function regex_match_token_zero_or_once()
     {
-        $regex = regex(
-            matchZeroOrOnce('bird')
-        );                           
+        $regexes = [
+            regex(
+                matchZeroOrOneClass('bird')
+            ),
+            regex(
+                matchZeroOrOneGroup('bird')
+            ),
+            regex(
+                matchZeroOrOneOnlyGroup('b')
+            )
+        ];
 
-        $this->assertTrue($regex("He turns into a bird. He flies away."));
-        $this->assertTrue($regex('He turns into in his hands and flies away.'));
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertTrue($regex('He turns into in his hands and flies away.'));
+        }
 
-        $regex = regex(
-            literal('bir'),
-            matchZeroOrOnce('d'),
-            literal('.')
-        );                           
+        $regexes = [
+            regex(
+                literal('bir'),
+                matchZeroOrOneClass('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchZeroOrOneGroup('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchZeroOrOneOnlyGroup('d'),
+                literal('.')
+            )
+        ];
 
-        $this->assertTrue($regex("He turns into a bird. He flies away."));
-        $this->assertTrue($regex("He turns into a bir. He flies away."));
-        $this->assertFalse($regex("He turns into a bird He flies away."));
-        $this->assertFalse($regex("He turns into a bir He flies away."));
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertTrue($regex("He turns into a bir. He flies away."));
+            $this->assertFalse($regex("He turns into a bird He flies away."));
+            $this->assertFalse($regex("He turns into a bir He flies away."));
+        }
+    }
+
+    /** @test */
+    public function regex_match_token_one_or_more()
+    {
+        $regexes = [
+            regex(
+                matchOneOrMoreClass('b')
+            ),
+            regex(
+                matchOneOrMoreGroup('b')
+            ),
+            regex(
+                matchOneOrMoreOnlyGroup('b')
+            )
+        ];
+
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertFalse($regex('He turns into in his hands and flies away.'));
+        }
+
+        $regexes = [
+            regex(
+                literal('bir'),
+                matchOneOrMoreClass('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchOneOrMoreGroup('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchOneOrMoreOnlyGroup('d'),
+                literal('.')
+            )
+        ];
+
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertFalse($regex("He turns into a bir. He flies away."));
+            $this->assertTrue($regex("He turns into a birddd. He flies away."));
+            $this->assertFalse($regex("He turns into a bir He flies away."));
+        }
+    }
+
+    /** @test */
+    public function regex_match_token_zero_or_more()
+    {
+        $regexes = [
+            regex(
+                matchZeroOrMoreClass('b')
+            ),
+            regex(
+                matchZeroOrMoreGroup('b')
+            ),
+            regex(
+                matchZeroOrMoreOnlyGroup('b')
+            )
+        ];
+
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertTrue($regex('He turns into in his hands and flies away.'));
+            $this->assertTrue($regex('He turns into in his bb hands and flies away.'));
+        }
+
+        $regexes = [
+            regex(
+                literal('bir'),
+                matchZeroOrMoreClass('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchZeroOrMoreGroup('d'),
+                literal('.')
+            ),
+            regex(
+                literal('bir'),
+                matchZeroOrMoreOnlyGroup('d'),
+                literal('.')
+            )
+        ];
+
+        foreach ($regexes as $regex) {
+            $this->assertTrue($regex("He turns into a bird. He flies away."));
+            $this->assertTrue($regex("He turns into a bir. He flies away."));
+            $this->assertTrue($regex("He turns into a birddd. He flies away."));
+            $this->assertFalse($regex("He turns into a bir He flies away."));
+        }
     }
 }

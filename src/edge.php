@@ -10,22 +10,11 @@
 
 namespace Bakome\RegSem;
 
-
-/**
- * Regex begins with.
- * @param string $expression
- * @return string
- */
 function beginsWith(string $expression): string
 {
     return '^' . \preg_quote($expression);
 }
 
-/**
- * Regex begins with.
- * @param string $expression
- * @return string
- */
 function ceaseWith(string $expression): string
 {
     return \preg_quote($expression) . '$';

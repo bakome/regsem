@@ -89,3 +89,4 @@ This content is released under the (http://opensource.org/licenses/MIT) MIT Lice
  - Special chars
  - Capture groups
  - (Characters) classes
+ - https://couscous.io/templates.html Documentation

@@ -27,7 +27,9 @@
             "src/popular.php",
             "src/evaluate.php",
             "src/characters.php",
-            "src/repetition.php"
+            "src/repetition.php",
+            "src/group.php",
+            "src/digits.php"
         ]
     },
     "autoload-dev": {

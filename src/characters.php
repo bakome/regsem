@@ -13,7 +13,7 @@ namespace Bakome\RegSem;
 
 function literal(string $subject): string
 {
-    return preg_quote($subject);
+    return preg_quote($subject, '/');
 }
 
 function tab(): string
@@ -54,4 +54,19 @@ function formFeed(): string
 function verticalTab(): string
 {
     return '\\v';
+}
+
+function anyEnglishAlphabetLetter(): string
+{
+    return 'A-Za-z';
+}
+
+function anyLowerCaseEnglishAlphabetLetter(): string
+{
+    return 'a-z';
+}
+
+function hyphen(): string
+{
+    return literal('-');
 }
