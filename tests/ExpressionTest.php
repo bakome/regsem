@@ -20,9 +20,27 @@ use function Bakome\RegSem\{beginsWith,
     lineBreak,
     lineFeed,
     literal,
-    matchZeroOrOnce,
+    matchZeroOrOneClass,
+    matchZeroOrMoreClass,
     tab,
-    verticalTab};
+    group,
+    onlyGroup,
+    matchOneOrMoreClass,
+    verticalTab,
+    anyEnglishAlphabetLetter,
+    anyLowerCaseEnglishAlphabetLetter,
+    anyNumber,
+    zeroOrMoreLiteral,
+    cla2s,
+    oneOrMoreLiteral,
+    zeroOrOneLiteral,
+    matchZeroOrMoreGroup,
+    matchZeroOrOneGroup,
+    matchOneOrMoreGroup,
+    matchZeroOrMoreOnlyGroup,
+    matchZeroOrOneOnlyGroup,
+    matchOneOrMoreOnlyGroup
+};
 
 final class ExpressionTest extends TestCase
 {
@@ -96,8 +114,117 @@ final class ExpressionTest extends TestCase
     }
 
     /** @test */
-    public function expression_match_token_zero_or_once_optional()
+    public function expression_match_token_zero_or_once_optional_class()
     {
-        $this->assertEquals('[aToken]?', matchZeroOrOnce('aToken'));
+        $this->assertEquals('[aToken]?', matchZeroOrOneClass('aToken'));
     }
+
+    /** @test */
+    public function expression_match_token_zero_or_more_class()
+    {
+        $this->assertEquals('[aToken]*', matchZeroOrMoreClass('aToken'));
+    }        
+
+    /** @test */
+    public function expression_match_token_zero_or_more_group()
+    {
+        $this->assertEquals('(aToken)*', matchZeroOrMoreGroup('aToken'));
+    }            
+
+    /** @test */
+    public function expression_match_token_zero_or_once_group()
+    {
+        $this->assertEquals('(aToken)?', matchZeroOrOneGroup('aToken'));
+    }            
+
+    /** @test */
+    public function expression_match_token_one_or_more_group()
+    {
+        $this->assertEquals('(aToken)+', matchOneOrMoreGroup('aToken'));
+    }            
+
+    /** @test */
+    public function expression_match_only_group_zero_or_more()
+    {
+        $this->assertEquals('(?:aToken)*', matchZeroOrMoreOnlyGroup('aToken'));
+    }            
+
+    /** @test */
+    public function expression_match_only_group_zero_or_one()
+    {
+        $this->assertEquals('(?:aToken)?', matchZeroOrOneOnlyGroup('aToken'));
+    }                
+
+    /** @test */
+    public function expression_match_only_group_one_or_more()
+    {
+        $this->assertEquals('(?:aToken)+', matchOneOrMoreOnlyGroup('aToken'));
+    }                
+
+    /** @test */
+    public function create_expressions_groups()
+    {
+        $this->assertEquals('(aGroupExample)', group(
+            literal('aGroupExample')
+        ));
+    }    
+
+    /** @test */
+    public function create_expressions_only_groups_with_non_capture_subpatterns()
+    {
+        $this->assertEquals('(?:aOnlyGroupExample)', onlyGroup(
+            literal('aOnlyGroupExample')
+        ));
+    }    
+
+    /** @test */
+    public function create_expressions_with_class()
+    {
+        $this->assertEquals('[aClassExample]', cla2s(
+            literal('aClassExample')
+        ));
+    }            
+    
+    /** @test */
+    public function expression_match_one_or_more()
+    {
+        $this->assertEquals('[aToken]+', matchOneOrMoreClass('aToken'));
+    }   
+    
+    /** @test */
+    public function expression_contains_any_english_letter_alphabet_charachter()
+    {
+        $this->assertEquals('A-Za-z', anyEnglishAlphabetLetter());
+    }    
+
+    /** @test */
+    public function expression_contains_any_lowercase_english_letter_alphabet_charachter()
+    {
+        $this->assertEquals('a-z', anyLowerCaseEnglishAlphabetLetter());
+    }   
+    
+    /** @test */
+    public function expression_contains_any_number()
+    {
+        $this->assertEquals('0-9', anyNumber());
+    }   
+
+    /** @test */
+    public function expression_contains_zero_or_more_literal()
+    {
+        $this->assertEquals('*', zeroOrMoreLiteral());
+    }       
+
+    /** @test */
+    public function expression_contains_one_or_more_literal()
+    {
+        $this->assertEquals('+', oneOrMoreLiteral());
+    }           
+
+
+    /** @test */
+    public function expression_contains_zero_or_one_literal()
+    {
+        $this->assertEquals('?', zeroOrOneLiteral());
+    }           
 }

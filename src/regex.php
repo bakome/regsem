@@ -10,16 +10,11 @@
 
 namespace Bakome\RegSem;
 
-/**
- * Create regex instance.
- * @param string ...$expressions
- * @return \Closure
- */
-function regex(string ...$expressions): \Closure
-{    
+function regex(string...$expressions): \Closure
+{
     $pattern = describe(...$expressions);
 
-    return function(string $subject) use ($pattern) {
+    return function (string $subject) use ($pattern) {
         return matches($pattern, $subject);
     };
 }

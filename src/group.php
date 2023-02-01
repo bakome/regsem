@@ -11,15 +11,17 @@
 namespace Bakome\RegSem;
 
 
-function describe(string...$expressions): string
+function group(string...$expressions): string
 {
-    return implode('', $expressions);
+    return '(' . describe(...$expressions) . ')';
 }
 
-function matches(string $pattern, string $subject): bool
+function onlyGroup(string...$expressions): string
 {
-    return (bool) preg_match(
-        '/' . $pattern . '/',
-        $subject
-    );
+    return '(?:' . describe(...$expressions) . ')';
+}
+
+function cla2s(string...$expressions): string
+{
+    return '[' . describe(...$expressions) . ']';
 }

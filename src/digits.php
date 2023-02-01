@@ -11,15 +11,7 @@
 namespace Bakome\RegSem;
 
 
-function describe(string...$expressions): string
+function anyNumber(): string
 {
-    return implode('', $expressions);
-}
-
-function matches(string $pattern, string $subject): bool
-{
-    return (bool) preg_match(
-        '/' . $pattern . '/',
-        $subject
-    );
+    return '0-9';
 }

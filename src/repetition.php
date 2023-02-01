@@ -10,11 +10,71 @@
 
 namespace Bakome\RegSem;
 
-/**
- * Match tells the engine to attempt to match the preceding token zero times or once, in effect making it optional.
- * @return string
- */
-function matchZeroOrOnce(string $token): string
+function matchZeroOrOneClass(string...$expressions): string
 {
-    return "[$token]?";
+    return '[' . describe(...$expressions) . ']' . zeroOrOneLiteral();
+}
+
+function matchOneOrMoreClass(string...$expressions): string
+{
+    return '[' . describe(...$expressions) . ']' . oneOrMoreLiteral();
+}
+
+function matchZeroOrMoreClass(string...$expressions): string
+{
+    return '[' . describe(...$expressions) . ']' . zeroOrMoreLiteral();
+}
+
+function matchZeroOrMoreGroup(string...$expressions): string
+{
+    return '(' . describe(...$expressions) . ')' . zeroOrMoreLiteral();
+}
+
+function matchZeroOrOneGroup(string...$expressions): string
+{
+    return '(' . describe(...$expressions) . ')' . zeroOrOneLiteral();
+}
+
+function matchOneOrMoreGroup(string...$expressions): string
+{
+    return '(' . describe(...$expressions) . ')' . oneOrMoreLiteral();
+}
+
+function matchZeroOrMoreOnlyGroup(string...$expressions): string
+{
+    return describe(
+        onlyGroup(...$expressions)
+    )
+        . zeroOrMoreLiteral();
+}
+
+function matchZeroOrOneOnlyGroup(string...$expressions): string
+{
+    return describe(
+        onlyGroup(...$expressions)
+    )
+        . zeroOrOneLiteral();
+}
+
+function matchOneOrMoreOnlyGroup(string...$expressions): string
+{
+    return describe(
+        onlyGroup(...$expressions)
+    )
+        . oneOrMoreLiteral();
+}
+
+function zeroOrMoreLiteral(): string
+{
+    return '*';
+}
+
+function oneOrMoreLiteral(): string
+{
+    return '+';
+}
+
+function zeroOrOneLiteral(): string
+{
+    return '?';
 }
