@@ -78,3 +78,18 @@ function zeroOrOneLiteral(): string
 {
     return '?';
 }
+
+function matchExactTimes(int $numberOfOccurrences): string
+{
+    return '{' . $numberOfOccurrences . '}';
+}
+
+function matchAtLeastTimes(int $numberOfMinimalOccurrences): string
+{
+    return '{' . $numberOfMinimalOccurrences . ',}';
+}
+
+function matchOccurrencesRange(int $minimalOccurrences, int $maximumOccurrences): string
+{
+    return '{' . $minimalOccurrences . ',' . $maximumOccurrences .'}';
+}

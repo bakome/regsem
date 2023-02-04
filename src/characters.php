@@ -70,3 +70,88 @@ function hyphen(): string
 {
     return literal('-');
 }
+
+function anyCharacterExceptNewLine(): string
+{
+    return '.';
+}
+
+function anyCharacterExceptLiteral(string $literal): string
+{
+    return '^' . $literal;
+}
+
+function alphabetic(): string
+{
+    return '[[:alpha:]]';
+}
+
+function digit(): string
+{
+    return '[[:digit:]]';
+}
+
+function alphanumeric(): string
+{
+    return '[[:alnum:]]';
+}
+
+function space(): string
+{
+    return '[[:space:]]';
+}
+
+function printable(): string
+{
+    return '[[:print:]]';
+}
+
+function nonPrintable(): string
+{
+    return '[[:cntrl:]]';
+}
+
+function lowercase(): string
+{
+    return '[[:lower:]]';
+}
+
+function uppercase(): string
+{
+    return '[[:upper:]]';
+}
+
+function nonDigit(): string
+{
+    return '\D';
+}
+
+function whitespace(): string
+{
+    return '\s';
+}
+
+function nonWhitespace(): string
+{
+    return '\S';
+}
+
+function word(): string
+{
+    return '\w';
+}
+
+function nonWord(): string
+{
+    return '\W';
+}
+
+function wordBoundary(): string
+{
+    return '\b';
+}
+
+function nonWordBoundary(): string
+{
+    return '\B';
+}
