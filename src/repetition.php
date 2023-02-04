@@ -79,17 +79,17 @@ function zeroOrOneLiteral(): string
     return '?';
 }
 
-function matchExactTimes($numberOfOccurrences): string
+function matchExactTimes(int $numberOfOccurrences): string
 {
     return '{' . $numberOfOccurrences . '}';
 }
 
-function matchAtLeastTimes($numberOfMinimalOccurrences): string
+function matchAtLeastTimes(int $numberOfMinimalOccurrences): string
 {
     return '{' . $numberOfMinimalOccurrences . ',}';
 }
 
-function matchOccurrencesRange($minimalOccurrences, $maximumOccurrences): string
+function matchOccurrencesRange(int $minimalOccurrences, int $maximumOccurrences): string
 {
     return '{' . $minimalOccurrences . ',' . $maximumOccurrences .'}';
 }

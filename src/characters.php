@@ -76,7 +76,7 @@ function anyCharacterExceptNewLine(): string
     return '.';
 }
 
-function anyCharacterExceptLiteral($literal): string
+function anyCharacterExceptLiteral(string $literal): string
 {
     return '^' . $literal;
 }
